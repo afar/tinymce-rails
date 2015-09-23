@@ -329,14 +329,14 @@ tinymce.PluginManager.add('image', function(editor) {
 		];
 
 		if (editor.settings.image_description !== false) {
-			var label = editor.settings.image_alt_label || "Image Alt"
-			puts "label is " + label
+			var label = editor.settings.image_alt_label || "Image Alt";
+			console.log("label is " + label);
 			generalFormItems.push({name: 'alt', type: 'textbox', label: label});
 		}
 
 		if (editor.settings.image_title) {
 			var label = editor.settings.image_alt_label || "Image Title"
-			puts "label is " + label
+			console.log("label is " + label);
 			generalFormItems.push({name: 'title', type: 'textbox', label: label});
 		}
 
