@@ -1,6 +1,6 @@
 tinymce.PluginManager.add('lightweightplace', function(editor, url) {
     // Add a button that opens a window
-    editor.addButton('example', {
+    editor.addButton('lightweightplace', {
         text: 'LWP',
         icon: false,
         onclick: function() {
