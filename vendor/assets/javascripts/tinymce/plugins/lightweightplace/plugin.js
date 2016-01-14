@@ -23,7 +23,7 @@ tinymce.PluginManager.add('lightweightplace', function(editor, url) {
                     selected_text = editor.selection.getContent({format : 'text'})
                     var xmlHttp = new XMLHttpRequest();
 
-                    params = JSON.stringify({category:e.data.category, auth_token:"AFAR_API_USER"})
+                    params = JSON.stringify({category:e.data.category, title:e.data.title, address:e.data.address , auth_token:"AFAR_API_USER"})
                     xmlHttp.open( "POST", "http://l.afar.com:3000/lightweight_place/highlights/create", false )
                     xmlHttp.setRequestHeader("Content-type", "application/json");
                     xmlHttp.send(params)
@@ -48,7 +48,7 @@ tinymce.PluginManager.add('lightweightplace', function(editor, url) {
             editor.windowManager.open({
                 title: 'TinyMCE site',
                 url: 'http://www.tinymce.com',
-                width: 800,
+                width: 1500,
                 height: 600,
                 buttons: [{
                     text: 'Close',
