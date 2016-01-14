@@ -11,18 +11,28 @@ tinymce.PluginManager.add('lightweightplace', function(editor, url) {
                     {type: 'textbox', name: 'title', label: 'Title'},
                     {type: 'textbox', name: 'address', label: 'Address'},
                     {type: 'listbox', name: 'category', label: 'category', 'values': [
-                        {text: 'Left', value: 'left'},
-                        {text: 'Right', value: 'right'},
-                        {text: 'Center', value: 'center'}
+                        {text: 'Eat', value: 'eat'},
+                        {text: 'Drink', value: 'drink'},
+                        {text: 'Stay', value: 'stay'},
+                        {text: 'Do', value: 'do'},
+                        {text: 'Shop', value: 'shop'},
                         ]
                     }
                 ],
                 onsubmit: function(e) {
-                    // Insert content when the window form is submitted
-                    //make the get call
-                    //if success make the insert
-                    //if not, do an alert or something
-                    editor.insertContent('Lightweight Place: ' + e.data.title);
+                    var xmlHttp = new XMLHttpRequest();
+
+                    params = JSON.stringify({blah:"blah", auth_token:"AFAR_API_USER"})
+                    xmlHttp.open( "POST", "http://l.afar.com:3000/lightweight_place/highlights/create", false )
+                    xmlHttp.setRequestHeader("Content-type", "application/json");
+                    xmlHttp.send(params)
+
+                    if (xmlHttp.status === 200) {
+                        result = JSON.parse(xmlHttp.responseText)
+                        editor.setContent("<a href='" + result.url + "'>" + result.title+ "</a>");
+                    } else {
+                        alert("Error creating lightweight place");
+                    }
                 }
             });
         }
