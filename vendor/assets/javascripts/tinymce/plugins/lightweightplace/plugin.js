@@ -8,10 +8,20 @@ tinymce.PluginManager.add('lightweightplace', function(editor, url) {
             editor.windowManager.open({
                 title: 'Lightweight Place',
                 body: [
-                    {type: 'textbox', name: 'title', label: 'Title of lightweight place'}
+                    {type: 'textbox', name: 'title', label: 'Title'},
+                    {type: 'textbox', name: 'address', label: 'Address'},
+                    {type: 'listbox', name: 'category', label: 'category', 'values': [
+                        {text: 'Left', value: 'left'},
+                        {text: 'Right', value: 'right'},
+                        {text: 'Center', value: 'center'}
+                        ]
+                    }
                 ],
                 onsubmit: function(e) {
                     // Insert content when the window form is submitted
+                    //make the get call
+                    //if success make the insert
+                    //if not, do an alert or something
                     editor.insertContent('Lightweight Place: ' + e.data.title);
                 }
             });
