@@ -20,6 +20,7 @@ tinymce.PluginManager.add('lightweightplace', function(editor, url) {
                     }
                 ],
                 onsubmit: function(e) {
+                    selected_text = editor.selection.getContent({format : 'text'})
                     var xmlHttp = new XMLHttpRequest();
 
                     params = JSON.stringify({category:e.data.category, auth_token:"AFAR_API_USER"})
@@ -29,7 +30,7 @@ tinymce.PluginManager.add('lightweightplace', function(editor, url) {
 
                     if (xmlHttp.status === 200) {
                         result = JSON.parse(xmlHttp.responseText)
-                        editor.selection.setContent("<a href='" + result.url + "'>" + result.name+ "</a>");
+                        editor.selection.setContent("<a href='" + result.url + "'>" + selected_text + "</a>");
                     } else {
                         alert("Error creating lightweight place");
                     }
