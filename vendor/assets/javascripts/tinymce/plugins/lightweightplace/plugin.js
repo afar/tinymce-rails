@@ -22,14 +22,14 @@ tinymce.PluginManager.add('lightweightplace', function(editor, url) {
                 onsubmit: function(e) {
                     var xmlHttp = new XMLHttpRequest();
 
-                    params = JSON.stringify({blah:"blah", auth_token:"AFAR_API_USER"})
+                    params = JSON.stringify({category:e.data.category, auth_token:"AFAR_API_USER"})
                     xmlHttp.open( "POST", "http://l.afar.com:3000/lightweight_place/highlights/create", false )
                     xmlHttp.setRequestHeader("Content-type", "application/json");
                     xmlHttp.send(params)
 
                     if (xmlHttp.status === 200) {
                         result = JSON.parse(xmlHttp.responseText)
-                        editor.setContent("<a href='" + result.url + "'>" + result.title+ "</a>");
+                        editor.selection.setContent("<a href='" + result.url + "'>" + result.name+ "</a>");
                     } else {
                         alert("Error creating lightweight place");
                     }
