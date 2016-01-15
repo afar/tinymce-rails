@@ -15,7 +15,7 @@ tinymce.PluginManager.add('lightweightplace', function(editor, url) {
                         {text: 'Drink', value: 'drink'},
                         {text: 'Stay', value: 'stay'},
                         {text: 'Do', value: 'do'},
-                        {text: 'Shop', value: 'shop'},
+                        {text: 'Shop', value: 'shop'}, //this may need to be checkboxes
                         ]
                     }
                 ],
@@ -23,7 +23,7 @@ tinymce.PluginManager.add('lightweightplace', function(editor, url) {
                     selected_text = editor.selection.getContent({format : 'text'})
                     var xmlHttp = new XMLHttpRequest();
 
-                    params = JSON.stringify({category:e.data.category, title:e.data.title, address:e.data.address , auth_token:"AFAR_API_USER"})
+                    params = JSON.stringify({category:e.data.category, title:e.data.title, address:e.data.address, auth_token:document.getElementById('current-user-slug').innerText })
                     xmlHttp.open( "POST", "http://l.afar.com:3000/lightweight_place/highlights/create", false )
                     xmlHttp.setRequestHeader("Content-type", "application/json");
                     xmlHttp.send(params)
