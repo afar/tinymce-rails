@@ -1,36 +1,56 @@
 tinymce.PluginManager.add('lightweightplace', function(editor, url) {
-    // Add a button that opens a window
     editor.addButton('lightweightplace', {
         text: 'LWP',
         icon: false,
         onclick: function() {
-            // Open window
             editor.windowManager.open({
                 title: 'Lightweight Place',
                 body: [
-                    {type: 'textbox', name: 'title', label: 'Title'},
+                    {type: 'textbox', name: 'title', label: 'Title', value: editor.selection.getContent({format : 'text'})},
                     {type: 'textbox', name: 'address', label: 'Address'},
-                    {type: 'listbox', name: 'category', label: 'category', 'values': [
-                        {text: 'Eat', value: 'eat'},
-                        {text: 'Drink', value: 'drink'},
-                        {text: 'Stay', value: 'stay'},
-                        {text: 'Do', value: 'do'},
-                        {text: 'Shop', value: 'shop'}, //this may need to be checkboxes
-                        ]
-                    }
+                    {type: 'label', name: 'choose category', label: 'Choose highlight categories'},
+                    {type: 'checkbox', name: 'category_eat', value: 'eat', label: "Eat"},
+                    {type: 'checkbox', name: 'category_drink', value: 'drink', label: "Drink"},
+                    {type: 'checkbox', name: 'category_stay', value: 'stay', label: "Stay"},
+                    {type: 'checkbox', name: 'category_do', value: 'do', label: "Do"},
+                    {type: 'checkbox', name: 'category_shop', value: 'shop', label: "Shop"}
                 ],
                 onsubmit: function(e) {
                     selected_text = editor.selection.getContent({format : 'text'})
                     var xmlHttp = new XMLHttpRequest();
 
-                    params = JSON.stringify({category:e.data.category, title:e.data.title, address:e.data.address, auth_token:document.getElementById('current-user-token').innerText })
-                    xmlHttp.open( "POST", "http://l.afar.com:3000/lightweight_place/highlights/create", false )
+                    var categories = []
+                    if (e.data.category_eat) {categories.push("eat")}
+                    if (e.data.category_drink) {categories.push("drink")}
+                    if (e.data.category_stay) {categories.push("stay")}
+                    if (e.data.category_do) {categories.push("do")}
+                    if (e.data.category_shop) {categories.push("shop")}
+
+                    var url;
+                    if (window.location.host === "l.afar.com:3000"){
+                      url = "http://l.afar.com:3000/lightweight_place/highlights/create"
+                    } else {
+                      url = "/lightweight_place/highlights/create"
+                    }
+
+                    params = JSON.stringify({
+                        categories:categories, 
+                        title:e.data.title, 
+                        address:e.data.address,
+                        authenticity_token: document.getElementsByName("csrf-token")[0].getAttribute("content")
+                    })
+                    xmlHttp.open( "POST", url, false )
                     xmlHttp.setRequestHeader("Content-type", "application/json");
                     xmlHttp.send(params)
 
                     if (xmlHttp.status === 200) {
                         result = JSON.parse(xmlHttp.responseText)
-                        editor.selection.setContent("<a href='" + result.url + "'>" + selected_text + "</a>");
+                        content = "<a href='" + result.url + "'>" + result.name + "</a>"
+                        if (selected_text && selected_text != "") {
+                            editor.insertContent(content);
+                        } else {
+                            editor.selection.setContent(content);
+                        }
                     } else {
                         alert("Error creating lightweight place");
                     }
@@ -39,12 +59,10 @@ tinymce.PluginManager.add('lightweightplace', function(editor, url) {
         }
     });
 
-    // Adds a menu item to the tools menu
     editor.addMenuItem('lightweightplace', {
         text: 'lightweightplace plugin',
         context: 'tools',
         onclick: function() {
-            // Open window with a specific url
             editor.windowManager.open({
                 title: 'TinyMCE site',
                 url: 'http://www.tinymce.com',
