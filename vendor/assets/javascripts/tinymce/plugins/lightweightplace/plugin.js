@@ -1,4 +1,4 @@
-tinymce.PluginManager.add('lightweightplace', function(editor, url) {
+tinymce.PluginManager.add('lightweightplace', function(editor, url) { //custom plugin for adding a lightweight place
     editor.addButton('lightweightplace', {
         text: 'LWP',
         icon: false,
