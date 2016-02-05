@@ -6,7 +6,7 @@ tinymce.PluginManager.add('lightweightplace', function(editor, url) { //custom p
             editor.windowManager.open({
                 title: 'Lightweight Place',
                 body: [
-                    {type: 'textbox', name: 'title', label: 'Title', value: editor.selection.getContent({format : 'text'})},
+                    {type: 'textbox', name: 'title', label: 'Title for Place', value: editor.selection.getContent({format : 'text'})},
                     {type: 'textbox', name: 'address', label: 'Address'},
                     {type: 'label', name: 'choose category', label: 'Choose highlight categories'},
                     {type: 'checkbox', name: 'category_eat', value: 'eat', label: "Eat"},
